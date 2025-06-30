@@ -1,0 +1,13 @@
+#ignore all files
+*/
+#except
+!btop/
+!hypr/
+!waybar/
+!scripts/
+!nwg-look/
+!kitty/
+!gtk-3.0/
+!gtk-4.0/
+!fish/
+
