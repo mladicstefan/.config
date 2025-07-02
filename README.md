@@ -1,4 +1,5 @@
 My own config and personal computer moderate secure setup, my laptop is more hardcore tho
+Security is minimal, this is for my home machine, on my laptop i use LUKS and roll my own secure boot keys, i suprisingly do go outside everyday.
 ## 1. group policies and little things
 ~~~
 groups (user) #check if you're superuser

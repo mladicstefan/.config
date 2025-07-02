@@ -12,7 +12,12 @@ window#waybar {
     transition-property: background-color;
     transition: 0.2s, ease-in-out;
 }
-
+/* window#waybar { */
+/*     background: @theme_base_color; */
+/*     border-bottom: 1px solid @unfocused_borders; */
+/*     color: @theme_text_color; */
+/*     transition: 0.2s, ease-in-out; */
+/* } */
 window#waybar.hidden {
     opacity: 0.2;
 }
