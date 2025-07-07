@@ -1,5 +1,8 @@
-My own config and personal computer moderate secure setup, my laptop is more hardcore tho
-Security is minimal, this is for my home machine, on my laptop i use LUKS and roll my own secure boot keys, i suprisingly do go outside everyday.
+Archlinux secure & lightweight Setup guide.
+## 0. Install
+use archinstall or do it manually just make sure you setup luks encrypt.
+[Arch wiki guide](https://wiki.archlinux.org/title/Installation_guide])
+
 ## 1. group policies and little things
 ~~~
 groups (user) #check if you're superuser
@@ -23,10 +26,10 @@ sudo pacman -S openssh
 sudo nvim /etc/ssh/sshd_config
 
 UsePAM no #only if not using Multi Factor Authentication
-AllowRootLogin no #cant remember exact cmd
-AllowPasswordAuthentication no
+PermitRootLogin prohibit-password
+PasswordAuthentication no
 
-ssh-keygen -t ed25519 -C "string"
+ssh-keygen -t ed25519 -C "phrase to generate key from..."
 sudo systemctl restart ssh
 ~~~
 ## 4. CPU Microcode
@@ -77,17 +80,71 @@ cp -r /etc/xdg/waybar/ .config/
 ```
 ## 11. Open apps like this until u install rofi
 ```
-nohup firefox & disown
+sudo pacman -S rofi
 ```
-## 12. final touches
+then apply the hyprland.conf or copy the line and rofi launch script
+## 12. Apparmor
+```
+sudo pacman -S apparmor
+timeshift --create --comment "just in case"
+nvim /boot/loader/entries/ #open the file without the fallback mark
+```
+Add this to your options:
+lsm=landlock,lockdown,yama,apparmor,bpf apparmor=1 security=apparmor 
+```
+sudo systemctl enable apparmor.service
+```
+reboot
+```
+aa-enabled #should be yes
+aa-status #use sudo if you cannot see profiles.
+```
+## 13. Secure boot
+#### This is really important! Other than protecting yourself from physical attacks, you also prevent from malicious packages. It is easy for makepkg -si to inject a malicious kernel. This is a must!
+1. Go into your bios and reset Secure Boot Keys (DO NOT DO THIS UNLESS DUAL BOOTING TO WINDOWS, IF DUAL BOOTING, REFER TO A DIFFERENT GUIDE FOR SECURE BOOT)
+2. Create and Enroll keys
+```
+sudo sbctl setup #output you should see setup mode = true if not do sudo sbctl setup
+sudo sbctl create-keys
+sudo sbctl enroll-keys -m #-m for microsoft keys, needed for some services
+```
+3. Sign bootloader (systemd for grub refer to another guide)
+```
+sudo sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
+```
+4. Find and sign linux kernel
+```
+cat /etc/mkinitcpio.d/linux.preset
+
+#output should have a bunch of lines either commented out with # at the beggining or not.
+#look at the next lines:
+#ALL_kver =...
+#default_uki =....
+# If using unified kernel image, the default_uki line wont start with a # therefore you will include that path
+#into the next command, but i'm using a standard kernel so i will include ALL_kver.
+
+sudo sbctl sign -s /boot/vmlinuz-linux
+```
+5. Reinstall bootloader
+```
+bootctl install
+```
+6. Verify sbctl
+```
+sudo sbctl verify
+```
+7. Reboot & enter BIOS and enable Secure Boot
+   
+That's it!
+## 14. final touches
 ```
 # audio control and theme control
-sudo pacman -S pauvcontrol nwg-look
+sudo pacman -S pavucontrol nwg-look
 # fonts
 sudo pacman -S ttf-font-awesome ttf-jetbrains-mono-nerd
 # themes
-$git clone https://github.com/vinceliuice/Graphite-gtk-theme.git --depth=1
-$cd Graphite-gtk-theme
-$./install-sh -c dark -t purple -s standard -s compact -l --tweaks black rimless
-
+git clone https://github.com/vinceliuice/Graphite-gtk-theme.git --depth=1
+cd Graphite-gtk-theme
+./install-sh
+nwg-look #customize
 ```
