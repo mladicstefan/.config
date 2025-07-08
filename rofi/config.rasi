@@ -3,4 +3,6 @@ modes: [ combi ];
 combi-modes: [ window, drun, run ];
 }
 
-@theme "onedark.rasi"
+//@theme "onedark.rasi"
+
+@theme "/home/djamla/.local/share/rofi/themes/spotlight-dark.rasi"
