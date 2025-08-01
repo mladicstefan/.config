@@ -3,6 +3,7 @@
 kwalletrc
 #except
 !btop/
+!zsh/
 !hypr/
 !waybar/
 !scripts/
