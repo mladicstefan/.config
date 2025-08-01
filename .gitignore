@@ -1,5 +1,6 @@
 #ignore all files
 */
+kwalletrc
 #except
 !btop/
 !hypr/
