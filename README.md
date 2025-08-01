@@ -1,158 +1,311 @@
+<div align="center">
 
+# 🛡️ Secure Arch Setup
 
-Archlinux secure & lightweight Setup guide.
-## 0. Install
-use archinstall or do it manually just make sure you setup luks encrypt.
-[Arch wiki guide](https://wiki.archlinux.org/title/Installation_guide])
-# POST INSTALL
-## OPTION 1:
-This is for repetitive
+<p align="center">
+  <img src="https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white" alt="Arch Linux">
+  <img src="https://img.shields.io/badge/Shell-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white" alt="Shell">
+  <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
+</p>
+
+**A comprehensive security-focused Arch Linux setup guide with automated installation scripts**
+
+</div>
+
+---
+
+## ✨ Features
+
+- **LUKS encryption** setup in prerequisites
+- **Users and groups** management
+- **UFW firewall** configuration
+- **OpenSSH and SSH keys** for secure access
+- **Microcode** installation guide
+- **Security** best practices
+- **System backup** strategies
+- **AppArmor** mandatory access control
+- **Secure Boot** implementation (optional)
+- **Automated installation** scripts
+- **Safe system updates** with backup protection
+- **Hyprland** Wayland compositor setup
+- **Complete dotfiles** and configuration management
+
+---
+
+## 📋 Prerequisites
+
+- Fresh Arch Linux installation with LUKS encryption
+- Follow the [Arch Installation Guide](https://wiki.archlinux.org/title/Installation_guide) or use `archinstall`
+- Refer to [LUKS encryption setup](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system)
+
+## 🚀 Quick Start
+
+### Option 1: Automated Installation
+For quick deployment:
+```bash
 sudo sh fresh_install.sh
+```
 
-## OPTION 2:
-for learning and seeing the exact config
-## 1. group policies and little things
-~~~
-groups (user) #check if you're superuser
-sudo pacman -S man-pages man-db
-sudo pacman -S btop
-~~~
+### Option 2: Manual Setup
+Follow the step-by-step guide below for learning and customization.
 
-## 2. firewall
-~~~
+---
+
+## 📖 Manual Setup Guide
+
+### 1. Basic Setup
+**References:** [Users and groups](https://wiki.archlinux.org/title/Users_and_groups)
+```bash
+groups $(whoami)  # Check user groups
+sudo pacman -S man-pages man-db btop
+```
+
+### 2. Firewall Configuration
+**References:** [Uncomplicated Firewall](https://wiki.archlinux.org/title/Uncomplicated_Firewall)
+```bash
 sudo pacman -S ufw
 sudo ufw enable
 sudo ufw default allow outgoing
 sudo ufw default deny incoming
-ufw allow ssh
-ufw status verbose #check status
-~~~
-## 3.  ssh
-prevent root ssh, insecure, 
-~~~
+sudo ufw allow ssh
+sudo ufw status verbose  # Verify configuration
+```
+
+### 3. SSH Hardening
+**References:** [OpenSSH](https://wiki.archlinux.org/title/OpenSSH), [SSH keys](https://wiki.archlinux.org/title/SSH_keys)
+```bash
 sudo pacman -S openssh
 sudo nvim /etc/ssh/sshd_config
+```
 
-UsePAM no #only if not using Multi Factor Authentication
+Add these configurations:
+```
+UsePAM no
 PermitRootLogin prohibit-password
 PasswordAuthentication no
-
-ssh-keygen -t ed25519 -C "phrase to generate key from..."
-sudo systemctl restart ssh
-~~~
-## 4. CPU Microcode
-[See](https://wiki.archlinux.org/title/Microcode)
-~~~
-sudo pacman -S amd-ucode 
-	#for AMD processors,
-    #intel-ucode for Intel processors.
-~~~
-
-## 5. find vulnerabilities in your architecture
 ```
+
+Generate SSH key:
+```bash
+ssh-keygen -t ed25519 -C "your-description"
+sudo systemctl restart sshd
+```
+
+### 4. CPU Microcode
+**References:** [Microcode](https://wiki.archlinux.org/title/Microcode)
+
+Install appropriate microcode for your processor:
+```bash
+# For AMD processors
+sudo pacman -S amd-ucode
+
+# For Intel processors  
+sudo pacman -S intel-ucode
+```
+
+### 5. Security Audit
+**References:** [Security](https://wiki.archlinux.org/title/Security)
+
+Check system vulnerabilities:
+```bash
 grep -r . /sys/devices/system/cpu/vulnerabilities/
 ```
 
-## 6. Timeshift
-It is very important that we keep backups in case of fuckups which always seem to happen at the worst moment 
-```
+### 6. Backup System
+**References:** [System backup](https://wiki.archlinux.org/title/System_backup)
+```bash
 sudo pacman -S timeshift
-timeshift --create --comments "post security setup"
-#consider even scheduling, more info on timeshift help
+sudo timeshift --create --comments "post security setup"
 ```
-## 7. Install yay
-```
+
+### 7. AUR Helper
+**References:** [Arch User Repository](https://wiki.archlinux.org/title/Arch_User_Repository), [AUR helpers](https://wiki.archlinux.org/title/AUR_helpers)
+```bash
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 ```
-## 8. Nvidia Drivers
-```
+
+### 8. Graphics Drivers
+**References:** [NVIDIA](https://wiki.archlinux.org/title/NVIDIA)
+
+For NVIDIA users:
+```bash
 sudo pacman -S nvidia nvidia-utils
 ```
-## 8. Hyprland and dependencies
-```
-sudo pacman -S kitty ly hyprland fish xdg-desktop-portal-hyprland dunst hyprpolkitagent qt5-wayland qt6-wayland
-```
-## 9. Change shell
-```
-sudo pacman -S fish
-which fish 
-chsh path/to/fish
-```
-## 10. Waybar
-```
-yay -S waybar --needed
-cp -r /etc/xdg/waybar/ .config/
 
+### 9. Desktop Environment
+**References:** [Hyprland](https://wiki.archlinux.org/title/Hyprland), [Wayland](https://wiki.archlinux.org/title/Wayland)
+```bash
+sudo pacman -S kitty ly hyprland zsh xdg-desktop-portal-hyprland dunst hyprpolkitagent qt5-wayland qt6-wayland
 ```
-## 11. Open apps like this until u install rofi
+
+### 10. Shell Configuration
+**References:** [Zsh](https://wiki.archlinux.org/title/Zsh), [Command-line shell](https://wiki.archlinux.org/title/Command-line_shell)
+```bash
+sudo pacman -S zsh
+chsh -s $(which zsh)
 ```
+
+### 11. Status Bar
+**References:** [Waybar](https://wiki.archlinux.org/title/Waybar)
+```bash
+sudo pacman -S waybar
+cp -r /etc/xdg/waybar/ ~/.config/
+```
+
+### 12. Application Launcher
+**References:** [Application launcher](https://wiki.archlinux.org/title/List_of_applications/Other#Application_launchers)
+```bash
 sudo pacman -S rofi
 ```
-then apply the hyprland.conf or copy the line and rofi launch script
-## 12. Apparmor
-```
+
+### 13. AppArmor Security
+**References:** [AppArmor](https://wiki.archlinux.org/title/AppArmor)
+```bash
 sudo pacman -S apparmor
-timeshift --create --comment "just in case"
-nvim /boot/loader/entries/ #open the file without the fallback mark
+sudo timeshift --create --comments "pre-apparmor setup"
 ```
-Add this to your options:
-lsm=landlock,lockdown,yama,apparmor,bpf apparmor=1 security=apparmor 
+
+Edit boot entry (usually in `/boot/loader/entries/`):
 ```
+options ... lsm=landlock,lockdown,yama,apparmor,bpf apparmor=1 security=apparmor
+```
+
+Enable and verify:
+```bash
 sudo systemctl enable apparmor.service
+# After reboot:
+aa-enabled  # Should return "Yes"
+sudo aa-status
 ```
-reboot
-```
-aa-enabled #should be yes
-aa-status #use sudo if you cannot see profiles.
-```
-## 13. Secure boot
-#### This is really important! Other than protecting yourself from physical attacks, you also prevent from malicious packages. It is easy for makepkg -si to inject a malicious kernel. This is a must!
-1. Go into your bios and reset Secure Boot Keys (DO NOT DO THIS UNLESS DUAL BOOTING TO WINDOWS, IF DUAL BOOTING, REFER TO A DIFFERENT GUIDE FOR SECURE BOOT)
-2. Create and Enroll keys
-```
-sudo sbctl setup #output you should see setup mode = true if not do sudo sbctl setup
-sudo sbctl create-keys
-sudo sbctl enroll-keys -m #-m for microsoft keys, needed for some services
-```
-3. Sign bootloader (systemd for grub refer to another guide)
-```
-sudo sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
-```
-4. Find and sign linux kernel
-```
-cat /etc/mkinitcpio.d/linux.preset
 
-#output should have a bunch of lines either commented out with # at the beggining or not.
-#look at the next lines:
-#ALL_kver =...
-#default_uki =....
-# If using unified kernel image, the default_uki line wont start with a # therefore you will include that path
-#into the next command, but i'm using a standard kernel so i will include ALL_kver.
-
-sudo sbctl sign -s /boot/vmlinuz-linux
-```
-5. Reinstall bootloader
-```
-bootctl install
-```
-6. Verify sbctl
-```
-sudo sbctl verify
-```
-7. Reboot & enter BIOS and enable Secure Boot
-   
-That's it!
-## 14. final touches
-```
-# audio control and theme control
+### 14. Final Touches
+**References:** [Font configuration](https://wiki.archlinux.org/title/Font_configuration), [GTK](https://wiki.archlinux.org/title/GTK)
+```bash
+# Audio and theme management
 sudo pacman -S pavucontrol nwg-look
-# fonts
+
+# Additional fonts
 sudo pacman -S ttf-font-awesome ttf-jetbrains-mono-nerd
-# themes
+
+# GTK themes
 git clone https://github.com/vinceliuice/Graphite-gtk-theme.git --depth=1
 cd Graphite-gtk-theme
-./install-sh
-nwg-look #customize
+./install.sh
+nwg-look  # Configure themes
 ```
+
+---
+
+## 🔒 Secure Boot (Optional but Recommended)
+
+**References:** [Unified Extensible Firmware Interface/Secure Boot](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot)
+
+> **Warning**: Only proceed if you understand the implications. Dual-boot setups require special consideration.
+
+1. **Reset Secure Boot keys in BIOS**
+2. **Create and enroll keys:**
+   ```bash
+   sudo sbctl setup
+   sudo sbctl create-keys
+   sudo sbctl enroll-keys -m
+   ```
+
+3. **Sign bootloader:**
+   ```bash
+   sudo sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
+   ```
+
+4. **Sign kernel:**
+   ```bash
+   sudo sbctl sign -s /boot/vmlinuz-linux
+   ```
+
+5. **Reinstall bootloader and verify:**
+   ```bash
+   bootctl install
+   sudo sbctl verify
+   ```
+
+6. **Enable Secure Boot in BIOS**
+
+---
+
+## 🔧 System Maintenance
+
+**References:** [System maintenance](https://wiki.archlinux.org/title/System_maintenance), [Pacman](https://wiki.archlinux.org/title/Pacman)
+
+### ⚠️ Important: Safe System Updates
+
+**Never run `sudo pacman -Syu` directly** - this can potentially break your system!
+
+Instead, use the provided update script that creates automatic backups:
+
+```bash
+./system_update.sh
+```
+
+**What this script does:**
+- Creates a timestamped Timeshift backup before updates
+- Only proceeds with updates if backup succeeds
+- Shows available updates before applying
+- Provides rollback instructions if issues occur
+- Optional package cache cleanup
+
+### Manual Backup Creation
+```bash
+sudo timeshift --create --comments "manual backup - $(date)"
+```
+
+### System Restoration
+If something goes wrong after an update:
+```bash
+sudo timeshift --list                    # List available snapshots
+sudo timeshift --restore --snapshot SNAPSHOT_NAME
+```
+
+---
+
+## 📁 Repository Structure
+
+```
+.
+├── fresh_install.sh      # Automated installation script  
+├── system_update.sh      # Safe system update script
+├── config/              # Configuration files
+│   ├── hypr/           # Hyprland configuration
+│   ├── waybar/         # Waybar configuration  
+│   ├── nvim/           # Neovim configuration
+│   └── ...             # Other dotfiles
+└── README.md           # This file
+```
+
+---
+
+## ⚡ Quick Commands
+
+| Action | Command |
+|--------|---------|
+| Install everything | `sudo sh fresh_install.sh` |
+| Safe system update | `./system_update.sh` |
+| Create backup | `sudo timeshift --create` |
+| Check AppArmor | `aa-enabled && sudo aa-status` |
+| Firewall status | `sudo ufw status verbose` |
+
+---
+
+## 🛟 Troubleshooting
+
+- **Boot issues**: Use Arch live USB and `timeshift --restore`
+- **AppArmor conflicts**: Check `/var/log/audit/audit.log`
+- **SSH access denied**: Verify key permissions and `sshd_config`
+- **Graphics issues**: Check driver installation and kernel modules
+
+---
+
+<div align="center">
+
+**Stay secure, stay updated! 🔐**
+
+</div>
