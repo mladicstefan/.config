@@ -83,6 +83,7 @@ PACKAGES=(
    "linux"
    "linux-firmware"
    "linux-headers"
+   "ly"
    "man-db"
    "man-pages"
    "mesa-utils"
@@ -160,11 +161,10 @@ for item in "$SCRIPT_DIR"/*; do
     
     if [ -e "$item" ]; then
         ITEM_NAME="$(basename "$item")"
-        DEST_PATH="~/.config/$ITEM_NAME"
         
         # Remove existing directory/file if it exists to avoid conflicts
         if [ -e ~/.config/"$ITEM_NAME" ]; then
-            warn "Removing existing $DEST_PATH to avoid conflicts"
+            warn "Removing existing ~/.config/$ITEM_NAME to avoid conflicts"
             rm -rf ~/.config/"$ITEM_NAME"
         fi
         
@@ -278,7 +278,7 @@ cd ~
 log "Enabling essential services..."
 sudo systemctl enable docker.service
 sudo systemctl enable tlp.service
-# sudo systemctl enable ly.service  # Display manager
+sudo systemctl enable ly.service  # Display manager
 
 # Add user to important groups
 sudo usermod -aG docker "$USER"
@@ -288,7 +288,7 @@ log "=== Setup Complete ==="
 log "System information:"
 echo "CPU: $(lscpu | grep 'Model name' | cut -d: -f2 | xargs)"
 echo "Kernel: $(uname -r)"
-echo "Services enabled: docker, tlp, ufw, sshd, apparmor"
+echo "Services enabled: docker, tlp, ufw, sshd, apparmor, ly"
 echo ""
 warn "IMPORTANT: Reboot required for all changes to take effect!"
 warn "After reboot, run: aa-enabled && sudo aa-status to verify AppArmor"
