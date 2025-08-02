@@ -69,6 +69,8 @@ alias pacu='sudo pacman -Syu'  # System update
 
 # System utilities
 alias du='sudo du -sh'         # Show directory size with sudo
+alias bt='sudo systemctl start bluetooth.service'
+alias btstop='sudo systemctl stop bluetooth.service'
 
 # Create directory and cd into it
 # Usage: mkcd my-new-folder
