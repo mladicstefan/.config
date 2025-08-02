@@ -137,7 +137,7 @@ PACKAGES=(
 
 # Install all packages via pacman
 log "Installing all packages via pacman..."
-sudo pacman -S --noconfirm "${PACKAGES[@]}"
+sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"
 
 # Copy configuration files
 log "=== Copying Configuration Files ==="
@@ -216,19 +216,9 @@ fi
 log "Checking CPU vulnerabilities..."
 grep -r . /sys/devices/system/cpu/vulnerabilities/ || true
 
-# 6. Timeshift backup
-log "Setting up Timeshift..."
+# Backup and update information
+log "For system backups and updates, use the ./system_update.sh script"
 
-# Check if running in VM
-if systemd-detect-virt --quiet; then
-    warn "VM detected - skipping initial Timeshift backup (can cause hangs)"
-    warn "You can manually create backups later with: sudo timeshift --create"
-else
-    log "Creating initial Timeshift backup..."
-    timeout 300 sudo timeshift --create --comments "Post security setup - $(date)" || {
-        warn "Timeshift backup timed out or failed - continuing with setup"
-    }
-fi
 # 8. Nvidia drivers (if Nvidia GPU detected)
 if lspci | grep -i nvidia > /dev/null; then
    log "Nvidia GPU detected, installing drivers..."
