@@ -61,7 +61,6 @@ PACKAGES=(
    "base"
    "base-devel"
    "bob"
-   "brave-bin"
    "brightnessctl"
    "btop"
    "cliphist"
