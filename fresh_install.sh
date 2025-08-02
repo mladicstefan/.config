@@ -274,7 +274,7 @@ cd ~
 log "Enabling essential services..."
 sudo systemctl enable docker.service
 sudo systemctl enable tlp.service
-sudo systemctl enable ly.service  # Display manager
+# sudo systemctl enable ly.service  # Display manager
 
 # Add user to important groups
 sudo usermod -aG docker "$USER"
