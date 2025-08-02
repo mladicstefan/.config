@@ -141,37 +141,42 @@ sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"
 
 # Copy configuration files
 log "=== Copying Configuration Files ==="
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 mkdir -p ~/.config
 
-# Copy all contents from script directory to ~/.config (excluding the script itself)
-if [ -d "$SCRIPT_DIR" ]; then
-   log "Copying config files from $SCRIPT_DIR to ~/.config..."
-   
-   # Create backup of existing config if it exists
-   if [ -d ~/.config ] && [ "$(ls -A ~/.config 2>/dev/null)" ]; then
-       warn "Backing up existing ~/.config to ~/.config.backup.$(date +%Y%m%d_%H%M%S)"
-       cp -r ~/.config ~/.config.backup.$(date +%Y%m%d_%H%M%S)
-   fi
-   
-   # Copy all directories and files except the script itself
-   for item in "$SCRIPT_DIR"/*; do
-       if [ -f "$item" ] && [[ "$(basename "$item")" == *.sh ]]; then
-           log "Skipping $(basename "$item") (script file)"
-           continue
-       fi
-       
-       if [ -e "$item" ]; then
-           log "Copying $(basename "$item")..."
-           cp -r "$item" ~/.config/
-       fi
-   done
-   
-   # Set proper permissions
-   chmod -R 755 ~/.config/
-   log "Configuration files copied successfully!"
-else
-   warn "Script directory not found or empty. Skipping config copy."
+log "Copying config files from $SCRIPT_DIR to ~/.config..."
+
+# Create backup of existing config if it exists
+if [ -d ~/.config ] && [ "$(ls -A ~/.config 2>/dev/null)" ]; then
+    warn "Backing up existing ~/.config to ~/.config.backup.$(date +%Y%m%d_%H%M%S)"
+    cp -r ~/.config ~/.config.backup.$(date +%Y%m%d_%H%M%S)
 fi
+
+# Copy all directories and files except script files
+for item in "$SCRIPT_DIR"/*; do
+    if [ -f "$item" ] && [[ "$(basename "$item")" == *.sh ]]; then
+        log "Skipping $(basename "$item") (script file)"
+        continue
+    fi
+    
+    if [ -e "$item" ]; then
+        ITEM_NAME="$(basename "$item")"
+        DEST_PATH="~/.config/$ITEM_NAME"
+        
+        # Remove existing directory/file if it exists to avoid conflicts
+        if [ -e ~/.config/"$ITEM_NAME" ]; then
+            warn "Removing existing $DEST_PATH to avoid conflicts"
+            rm -rf ~/.config/"$ITEM_NAME"
+        fi
+        
+        log "Copying $ITEM_NAME..."
+        cp -r "$item" ~/.config/
+    fi
+done
+
+# Set proper permissions
+chmod -R 755 ~/.config/
+log "Configuration files copied successfully!"
 
 # Post-installation security & system setup
 log "=== Starting Post-Installation Security Setup ==="
@@ -274,7 +279,7 @@ cd ~
 log "Enabling essential services..."
 sudo systemctl enable docker.service
 sudo systemctl enable tlp.service
-# sudo systemctl enable ly.service  # Display manager
+sudo systemctl enable ly.service  # Display manager
 
 # Add user to important groups
 sudo usermod -aG docker "$USER"
