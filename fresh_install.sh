@@ -60,6 +60,7 @@ PACKAGES=(
    "apparmor"
    "base"
    "base-devel"
+   "mtpfs"
    "bob"
    "brightnessctl"
    "btop"
