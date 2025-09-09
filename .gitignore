@@ -1,4 +1,5 @@
 #ignore all files
+QtProject.conf
 */
 kwalletrc
 #except
