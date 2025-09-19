@@ -2,6 +2,7 @@
 QtProject.conf
 */
 kwalletrc
+QtProject*
 #except
 !btop/
 !zsh/
