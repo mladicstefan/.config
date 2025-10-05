@@ -36,12 +36,14 @@ tooltip label {
     border-radius: 12px;
     padding: 4px 10px;
     margin: 8px 6px;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #battery,
 #custom-powerDraw,
+#custom-server-status,
+#custom-network-info,
 #bluetooth,
 #pulseaudio,
 #network,
@@ -113,4 +115,16 @@ tooltip label {
         background-color: #ffffff;
         color: #000000;
     }
+}
+
+#custom-server-status.online {
+    color: #77DD77;
+}
+
+#custom-server-status.degraded {
+    color: #ffbe61;
+}
+
+#custom-server-status.offline {
+    color: #f53c3c;
 }

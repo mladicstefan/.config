@@ -142,9 +142,10 @@
 
   "custom/server-status": {
     "format": "{}",
-    "interval": 30,
+    "interval": 300,
     "exec": "~/.config/waybar/scripts/server-status.sh",
     "return-type": "json",
-    "on-click": "kitty kitten ssh hetzner"
+    "on-click": "kitty kitten ssh hetzner",
+    "signal": 8
   }
 }
