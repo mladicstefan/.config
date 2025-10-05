@@ -6,7 +6,7 @@
     font-family: "Inter", "Helvetica Neue", sans-serif;
     font-weight: 500;
     min-height: 0;
-    color: @fg;
+    color: #ffffff;
 }
 
 window#waybar {
@@ -42,7 +42,6 @@ tooltip label {
 
 #battery,
 #custom-powerDraw,
-#custom-server-status,
 #custom-network-info,
 #bluetooth,
 #pulseaudio,
@@ -61,12 +60,14 @@ tooltip label {
     padding: 0 6px;
     margin: 2px;
     background: transparent;
+    color: @accent;
     transition: all 0.2s ease;
 }
 
 #workspaces button.active {
     background: @accent;
-    color: #000000;
+    color: #ffffff;
+    border: none;
 }
 
 #workspaces button:hover {
@@ -115,16 +116,4 @@ tooltip label {
         background-color: #ffffff;
         color: #000000;
     }
-}
-
-#custom-server-status.online {
-    color: #77DD77;
-}
-
-#custom-server-status.degraded {
-    color: #ffbe61;
-}
-
-#custom-server-status.offline {
-    color: #f53c3c;
 }
