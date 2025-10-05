@@ -1,7 +1,7 @@
 {
   "layer": "top",
   "position": "bottom",
-  "modules-left": ["custom/logo", "clock", "disk", "temperature", "custom/powerDraw", "custom/server-status"],
+  "modules-left": ["custom/logo", "clock", "disk", "temperature", "custom/powerDraw"],
   "modules-center": ["hyprland/workspaces"],
   "modules-right": ["hyprland/window", "backlight", "bluetooth", "pulseaudio", "network", "custom/network-info", "battery"],
   "reload_style_on_change": true,
@@ -59,7 +59,7 @@
     "tooltip-format": "{ipaddr}",
     "tooltip-format-wifi": "{essid} ({signalStrength}%) 󰤨 | {ipaddr}",
     "tooltip-format-ethernet": "{ifname} 󰈀 | {ipaddr}",
-    "on-click": "networkmanager_dmenu"
+    "on-click": "kitty nmtui"
   },
 
   "battery": {
@@ -138,14 +138,5 @@
     "interval": 5,
     "exec": "~/.config/waybar/scripts/network-info.sh",
     "return-type": "json"
-  },
-
-  "custom/server-status": {
-    "format": "{}",
-    "interval": 300,
-    "exec": "~/.config/waybar/scripts/server-status.sh",
-    "return-type": "json",
-    "on-click": "kitty kitten ssh hetzner",
-    "signal": 8
   }
 }
