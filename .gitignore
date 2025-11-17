@@ -4,6 +4,7 @@ QtProject.conf
 kwalletrc
 QtProject*
 #except
+!tmux/
 !btop/
 !zsh/
 !hypr/
