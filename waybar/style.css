@@ -76,18 +76,23 @@ tooltip {
   background: #111111;
 }
 
-/* 🌟 CONDITIONAL COLORING FOR INTERFACE (using the class names from the new script) */
-
 /* Green for VPN (mullvad/wg0) */
-#custom-interface-signal-info.vpn-active {
+#custom-vpn-status.vpn-active {
+  /* <<< MODIFIED ID HERE */
   color: #77dd77; /* Soft Green */
 }
 
-/* Red for standard Wifi interface (as requested) */
-#custom-interface-signal-info.wifi-active {
+/* Red for standard Wifi/Ethernet (disconnected state) */
+#custom-vpn-status.wifi-active {
+  /* <<< MODIFIED ID HERE */
   color: #ff6060; /* Red */
 }
 
+/* Style for completely offline state */
+#custom-vpn-status.offline {
+  /* <<< MODIFIED ID HERE */
+  color: #ffaa00; /* Amber/Orange for emphasis */
+}
 /* Status Colors */
 #temperature.critical,
 #pulseaudio.muted,

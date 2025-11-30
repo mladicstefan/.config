@@ -7,7 +7,7 @@
         "hyprland/window"
     ],
     "modules-center": [
-        "custom/interface-signal-info",
+        "custom/vpn-status",
         "custom/leaked-ip"
     ],
     "modules-right": [
@@ -44,10 +44,10 @@
     // --- Modules Center ---
     
     // MODIFIED: Calling the new script for combined interface and signal info
-    "custom/interface-signal-info": {
+    "custom/vpn-status": {
         "format": "{}",
         "interval": 5,
-        "exec": "~/.config/waybar/scripts/interface-signal-info.sh",
+        "exec": "~/.config/waybar/scripts/vpn-status.sh",
         "return-type": "json",
         "tooltip": true
     },
