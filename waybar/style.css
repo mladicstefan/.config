@@ -1,119 +1,105 @@
-@import "./waybar.css";
-
+/* GLOBAL STYLES */
 * {
-    border: none;
-    font-size: 13px;
-    font-family: "Inter", "Helvetica Neue", sans-serif;
-    font-weight: 500;
-    min-height: 0;
-    color: #ffffff;
+  border: none;
+  font-size: 13px;
+  font-family: "Fira Code Medium", monospace;
+  font-weight: 500;
+  min-height: 0;
+  color: #ffffff;
 }
 
+/* WINDOW/BAR CONTAINER */
 window#waybar {
-    background: transparent;
+  background: #000000;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
 }
 
+/* TOOLTIPS */
 tooltip {
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    color: @fg;
+  border-radius: 4px;
+  background: #111111;
+  border: 1px solid #333333;
+  padding: 5px 10px;
+  color: #ffffff;
 }
 
-tooltip label {
-    color: @fg;
-}
-
-#custom-logo {
-    padding: 0 12px;
-    font-size: 16px;
-}
-
+/* MODULE CONTAINERS */
 .modules-right,
 .modules-center,
 .modules-left {
-    border-radius: 12px;
-    padding: 4px 10px;
-    margin: 8px 6px;
-    background: rgba(0, 0, 0, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  background: #000000;
+  border: none;
 }
 
+/* INDIVIDUAL MODULE STYLING */
+#cpu,
+#memory,
+#disk,
+#temperature,
+#custom-interface-signal-info, /* MODIFIED ID */
+#custom-leaked-ip,
+#pulseaudio,
+#backlight,
 #battery,
 #custom-powerDraw,
-#custom-network-info,
 #bluetooth,
-#pulseaudio,
-#network,
-#disk,
-#backlight,
-#temperature,
-#window,
-#workspaces,
+#hyprland-window,
 #clock {
-    padding: 0 8px;
+  padding: 0 10px;
+  border-right: 1px solid #1a1a1a;
 }
 
+/* 🌟 WORKSPACES (Minimal Look) */
+#workspaces {
+  padding-left: 10px;
+}
 #workspaces button {
-    border-radius: 8px;
-    padding: 0 6px;
-    margin: 2px;
-    background: transparent;
-    color: @accent;
-    transition: all 0.2s ease;
+  border-radius: 0;
+  padding: 0 10px;
+  margin: 0;
+  background: transparent;
+  color: #aaaaaa;
+  transition: all 0.1s ease;
 }
 
 #workspaces button.active {
-    background: @accent;
-    color: #ffffff;
-    border: none;
+  color: #ffffff;
+  border-bottom: 2px solid #ffffff;
 }
 
 #workspaces button:hover {
-    background: rgba(255, 255, 255, 0.1);
+  background: #111111;
 }
 
-#pulseaudio {
-    padding-top: 3px;
+/* 🌟 CONDITIONAL COLORING FOR INTERFACE (using the class names from the new script) */
+
+/* Green for VPN (mullvad/wg0) */
+#custom-interface-signal-info.vpn-active {
+  color: #77dd77; /* Soft Green */
 }
 
-#pulseaudio.muted {
-    color: #FF0000;
-    padding-top: 2px;
-    padding-right: 10px;
+/* Red for standard Wifi interface (as requested) */
+#custom-interface-signal-info.wifi-active {
+  color: #ff6060; /* Red */
 }
 
-#temperature.critical {
-    color: #FF0000;
+/* Status Colors */
+#temperature.critical,
+#pulseaudio.muted,
+#network.disconnected,
+#battery.critical:not(.charging) {
+  color: #ff6060;
 }
 
 #battery.charging {
-    color: #77DD77;
+  color: #77dd77;
 }
 
 #battery.warning:not(.charging) {
-    background-color: #ffbe61;
-    color: black;
-    border-radius: 8px;
-    padding: 0 10px;
-}
-
-#battery.critical:not(.charging) {
-    background-color: #f53c3c;
-    color: #ffffff;
-    border-radius: 8px;
-    padding: 0 10px;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-@keyframes blink {
-    to {
-        background-color: #ffffff;
-        color: #000000;
-    }
+  color: #ffc900;
 }

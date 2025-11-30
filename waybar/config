@@ -1,142 +1,123 @@
 {
-  "layer": "top",
-  "position": "bottom",
-  "modules-left": ["custom/logo", "clock", "disk", "temperature", "custom/powerDraw"],
-  "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["hyprland/window", "backlight", "bluetooth", "pulseaudio", "network", "custom/network-info", "battery"],
-  "reload_style_on_change": true,
+    "layer": "top",
+    "position": "top",
+    "modules-left": [
+        "clock",
+        "hyprland/workspaces",
+        "hyprland/window"
+    ],
+    "modules-center": [
+        "custom/interface-signal-info",
+        "custom/leaked-ip"
+    ],
+    "modules-right": [
+        "cpu",
+        "memory",
+        "disk",
+        "temperature",
+        "pulseaudio",
+        "backlight",
+        "battery",
+        "bluetooth"
+    ],
+    "reload_style_on_change": true,
 
-  "custom/logo": {
-    "format": "󰣇",
-    "tooltip": false
-  },
+    // --- Modules Left ---
 
-  "hyprland/workspaces": {
-    "format": "{icon}",
-    "format-icons": {
-      "1": "󰲠",
-      "2": "󰲢",
-      "3": "󰲤",
-      "4": "󰲦",
-      "5": "󰲨",
-      "6": "󰲪",
-      "active": "󰮯",
-      "default": "󰊠"
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "persistent-workspaces": {
+            "*": [1, 2, 3, 4, 5]
+        }
     },
-    "persistent-workspaces": {
-      "*": [1, 2, 3, 4, 5]
+
+    "hyprland/window": {
+        "format": "{class}",
+        "max-length": 50,
+        "tooltip": false,
+        "rewrite": {
+            "(.*) - Mozilla Firefox": "Firefox: $1",
+            "(.*) - zsh": "Terminal"
+        }
+    },
+
+    // --- Modules Center ---
+    
+    // MODIFIED: Calling the new script for combined interface and signal info
+    "custom/interface-signal-info": {
+        "format": "{}",
+        "interval": 5,
+        "exec": "~/.config/waybar/scripts/interface-signal-info.sh",
+        "return-type": "json",
+        "tooltip": true
+    },
+    
+    "custom/leaked-ip": {
+        "format": "LEAKED-IP: {}",
+        "interval": 10,
+        "exec": "ip -4 route get 1.1.1.1 | awk '{print $7}' | tr -d '\n'"
+    },
+
+    // --- Modules Right (System Status) ---
+    
+    "cpu": {
+        "format": "CPU: {usage}%",
+        "interval": 5
+    },
+
+    "memory": {
+        "format": "RAM: {percentage}%",
+        "interval": 5
+    },
+
+    "disk": {
+        "format": "Disk: {percentage_used}% ({used}G)",
+        "interval": 30,
+        "path": "/"
+    },
+
+    "temperature": {
+        "format": "Temp: {temperatureC}°C",
+        "format-critical": "TEMP: {temperatureC}°C!",
+        "interval": 5,
+        "critical-threshold": 80
+    },
+
+    "pulseaudio": {
+        "format": "Vol: {volume}% {format_source}",
+        "format-source": "(Mic: {volume}% )",
+        "format-source-muted": "(Mic: Muted)",
+        "format-muted": "Vol: Muted {format_source}",
+        "on-click": "pavucontrol"
+    },
+    
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "Light: {percent}%"
+    },
+
+    "battery": {
+        "format": "Batt: {capacity}%",
+        "format-charging": "CHG: {capacity}%",
+        "format-plugged": "PLG: {capacity}%",
+        "format-alt": "Batt: {time}",
+        "states": {
+            "warning": 30,
+            "critical": 20
+        }
+    },
+    
+    "bluetooth": {
+        "format-on": "BT: On",
+        "format-off": "BT: Off",
+        "format-connected": "BT: {num_connections} conn",
+        "tooltip": true,
+        "on-click": "rofi-bluetooth"
+    },
+    
+    "clock": {
+        "format": "{:%H:%M}",
+        "tooltip-format": "{:%A, %B %d, %Y}",
+        "interval": 1
     }
-  },
-
-  "clock": {
-    "format": "{:%I:%M:%S %p  %d/%m/%y}",
-    "interval": 1,
-    "tooltip-format": "\n<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "calendar-weeks-pos": "right",
-    "today-format": "<span color='#7645AD'><b><u>{}</u></b></span>",
-    "format-calendar": "<span color='#aeaeae'><b>{}</b></span>",
-    "format-calendar-weeks": "<span color='#aeaeae'><b>W{:%V}</b></span>",
-    "format-calendar-weekdays": "<span color='#aeaeae'><b>{}</b></span>"
-  },
-
-  "bluetooth": {
-    "format-on": "󰂯",
-    "format-off": "󰂲",
-    "format-disabled": "󰂲",
-    "format-connected": "󰂱",
-    "format-connected-battery": "{device_battery_percentage}% 󰂱",
-    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-    "on-click": "rofi-bluetooth"
-  },
-
-  "network": {
-    "format-wifi": "󰤨",
-    "format-ethernet": "󰈀",
-    "format-disconnected": "󰤭",
-    "tooltip-format": "{ipaddr}",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%) 󰤨 | {ipaddr}",
-    "tooltip-format-ethernet": "{ifname} 󰈀 | {ipaddr}",
-    "on-click": "kitty nmtui"
-  },
-
-  "battery": {
-    "interval": 1,
-    "states": {
-      "good": 95,
-      "warning": 30,
-      "critical": 20
-    },
-    "format": "{capacity}%  {icon}",
-    "format-charging": "{capacity}% 󰂄",
-    "format-plugged": "{capacity}% 󰂄",
-    "format-alt": "{time} {icon}",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-  },
-
-  "backlight": {
-    "device": "intel_backlight",
-    "format": "<span font='12'>{icon}</span>",
-    "format-icons": ["󰃞", "󰃟", "󰃠"],
-    "on-scroll-down": "brigtnessctl set 5%-",
-    "on-scroll-up": "brigtnessctl set +5%",
-    "smooth-scrolling-threshold": 1
-  },
-
-  "disk": {
-    "interval": 30,
-    "format": "󰋊 {percentage_used}%",
-    "path": "/"
-  },
-
-  "hyprland/window": {
-    "format": "( {class} )",
-    "rewrite": {
-      "(.*) - Mozilla Firefox": "🌎 $1",
-      "(.*) - zsh": "> [$1]"
-    }
-  },
-
-  "temperature": {
-    "format": "󰔏 {temperatureC}°C",
-    "format-critical": "󱃂 {temperatureC}°C",
-    "interval": 1,
-    "critical-threshold": 80,
-    "on-click": "foot btop"
-  },
-
-  "pulseaudio": {
-    "format": "{volume}% {icon} {format_source}",
-    "format-bluetooth": "{volume}% {icon} {format_source}",
-    "format-bluetooth-muted": "󰝟 {icon} {format_source}",
-    "format-muted": "󰝟 {format_source}",
-    "format-source": "{volume}% 󰍬",
-    "format-source-muted": "󰍭",
-    "format-icons": {
-      "headphone": "󰋋",
-      "hands-free": "󱡏",
-      "headset": "󰋎",
-      "phone": "󰏲",
-      "portable": "󰏲",
-      "car": "󰄋",
-      "default": ["󰕿", "󰖀", "󰕾"]
-    },
-    "on-click": "pavucontrol"
-  },
-
-  "custom/powerDraw": {
-    "format": "{}",
-    "interval": 1,
-    "exec": "~/.config/waybar/scripts/powerdraw.sh",
-    "return-type": "json"
-  },
-
-  "custom/network-info": {
-    "format": "{}",
-    "interval": 5,
-    "exec": "~/.config/waybar/scripts/network-info.sh",
-    "return-type": "json"
-  }
 }
