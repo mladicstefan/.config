@@ -4,6 +4,7 @@ QtProject.conf
 kwalletrc
 QtProject*
 #except
+!./scripts/wallpaper.sh
 !tmux/
 !btop/
 !zsh/
