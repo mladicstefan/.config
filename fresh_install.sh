@@ -49,6 +49,7 @@ else
     log "yay already installed"
 fi
 
+# All packages from list
 PACKAGES=(
     "adobe-source-code-pro-fonts"
     "adobe-source-sans-fonts"
@@ -304,6 +305,9 @@ sudo systemctl enable tlp.service
 
 # Add user to important groups
 sudo usermod -aG docker "$USER"
+
+#add more fonts
+yay -S --needed otf-sn-pro ttf-fira-code ttf-hack powerline-fonts
 
 # Final system information
 log "=== Setup Complete ==="
