@@ -1,20 +1,5 @@
-<div align="center">
 
-# 🛡️ Secure Arch Setup
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white" alt="Arch Linux">
-  <img src="https://img.shields.io/badge/Shell-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white" alt="Shell">
-  <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
-</p>
-
-**A comprehensive security-focused Arch Linux setup guide with automated installation scripts**
-
-</div>
-
----
-
-## ✨ Features
+## Features
 
 - **LUKS encryption** setup in prerequisites
 - **Users and groups** management
@@ -32,13 +17,13 @@
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Fresh Arch Linux installation with LUKS encryption
 - Follow the [Arch Installation Guide](https://wiki.archlinux.org/title/Installation_guide) or use `archinstall`
 - Refer to [LUKS encryption setup](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system)
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Option 1: Automated Installation
 For quick deployment:
@@ -198,7 +183,7 @@ nwg-look  # Configure themes
 
 ---
 
-## 🔒 Secure Boot (Optional but Recommended)
+## Secure Boot (Optional but Recommended)
 
 **References:** [Unified Extensible Firmware Interface/Secure Boot](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot)
 
@@ -232,11 +217,11 @@ nwg-look  # Configure themes
 
 ---
 
-## 🔧 System Maintenance
+## System Maintenance
 
 **References:** [System maintenance](https://wiki.archlinux.org/title/System_maintenance), [Pacman](https://wiki.archlinux.org/title/Pacman)
 
-### ⚠️ Important: Safe System Updates
+### Important: Safe System Updates
 
 **Never run `sudo pacman -Syu` directly** - this can potentially break your system!
 
@@ -264,45 +249,6 @@ If something goes wrong after an update:
 sudo timeshift --list                    # List available snapshots
 sudo timeshift --restore --snapshot SNAPSHOT_NAME
 ```
-
----
-
-## 📁 Repository Structure
-
-```
-.
-├── fresh_install.sh      # Automated installation script  
-├── system_update.sh      # Safe system update script
-├── config/              # Configuration files
-│   ├── hypr/           # Hyprland configuration
-│   ├── waybar/         # Waybar configuration  
-│   ├── nvim/           # Neovim configuration
-│   └── ...             # Other dotfiles
-└── README.md           # This file
-```
-
----
-
-## ⚡ Quick Commands
-
-| Action | Command |
-|--------|---------|
-| Install everything | `sudo sh fresh_install.sh` |
-| Safe system update | `./system_update.sh` |
-| Create backup | `sudo timeshift --create` |
-| Check AppArmor | `aa-enabled && sudo aa-status` |
-| Firewall status | `sudo ufw status verbose` |
-
----
-
-## 🛟 Troubleshooting
-
-- **Boot issues**: Use Arch live USB and `timeshift --restore`
-- **AppArmor conflicts**: Check `/var/log/audit/audit.log`
-- **SSH access denied**: Verify key permissions and `sshd_config`
-- **Graphics issues**: Check driver installation and kernel modules
-
----
 
 <div align="center">
 
