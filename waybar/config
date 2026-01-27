@@ -1,49 +1,57 @@
 {
     "layer": "top",
     "position": "top",
+    "height": 38,
+    "spacing": 0,
+    "reload_style_on_change": true,
+
     "modules-left": [
-        "clock",
+        "custom/logo",
         "hyprland/workspaces",
         "hyprland/window"
     ],
-    "modules-center": [
-        "custom/vpn-status",
-        "custom/leaked-ip"
-    ],
+    "modules-center": [],
     "modules-right": [
-        "cpu",
-        "memory",
-        "disk",
         "temperature",
-        "pulseaudio",
-        "backlight",
+        "custom/vpn-status",
+        "network",
+        "bluetooth",
         "battery",
-        "bluetooth"
+        "backlight",
+        "pulseaudio",
+        "clock"
     ],
-    "reload_style_on_change": true,
 
-    // --- Modules Left ---
+    "custom/logo": {
+        "format": "󰌽",
+        "tooltip": false
+    },
 
     "hyprland/workspaces": {
         "format": "{name}",
         "persistent-workspaces": {
             "*": [1, 2, 3, 4, 5]
-        }
+        },
+        "on-click": "activate"
     },
 
     "hyprland/window": {
         "format": "{class}",
         "max-length": 50,
-        "tooltip": false,
         "rewrite": {
-            "(.*) - Mozilla Firefox": "Firefox: $1",
-            "(.*) - zsh": "Terminal"
+            "": ""
         }
     },
 
-    // --- Modules Center ---
-    
-    // MODIFIED: Calling the new script for combined interface and signal info
+    "temperature": {
+        "format": "󰔏",
+        "format-critical": "󰸁",
+        "critical-threshold": 80,
+        "interval": 5,
+        "tooltip": true,
+        "tooltip-format": "{temperatureC}°C"
+    },
+
     "custom/vpn-status": {
         "format": "{}",
         "interval": 5,
@@ -51,73 +59,71 @@
         "return-type": "json",
         "tooltip": true
     },
-    
-    "custom/leaked-ip": {
-        "format": "LEAKED-IP: {}",
-        "interval": 10,
-        "exec": "ip -4 route get 1.1.1.1 | awk '{print $7}' | tr -d '\n'"
+
+    "network": {
+        "format-wifi": "󰤨",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰤭",
+        "tooltip": true,
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "{ifname}",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "kitty --class floating-term -e nmtui"
     },
 
-    // --- Modules Right (System Status) ---
-    
-    "cpu": {
-        "format": "CPU: {usage}%",
-        "interval": 5
-    },
-
-    "memory": {
-        "format": "RAM: {percentage}%",
-        "interval": 5
-    },
-
-    "disk": {
-        "format": "Disk: {percentage_used}% ({used}G)",
-        "interval": 30,
-        "path": "/"
-    },
-
-    "temperature": {
-        "format": "Temp: {temperatureC}°C",
-        "format-critical": "TEMP: {temperatureC}°C!",
-        "interval": 5,
-        "critical-threshold": 80
-    },
-
-    "pulseaudio": {
-        "format": "Vol: {volume}% {format_source}",
-        "format-source": "(Mic: {volume}% )",
-        "format-source-muted": "(Mic: Muted)",
-        "format-muted": "Vol: Muted {format_source}",
-        "on-click": "pavucontrol"
-    },
-    
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "Light: {percent}%"
+    "bluetooth": {
+        "format": "󰂯",
+        "format-connected": "󰂱",
+        "format-off": "󰂲",
+        "tooltip": true,
+        "tooltip-format": "{status}",
+        "tooltip-format-connected": "{device_alias}",
+        "on-click": "kitty --class floating-term -e bluetui"
     },
 
     "battery": {
-        "format": "Batt: {capacity}%",
-        "format-charging": "CHG: {capacity}%",
-        "format-plugged": "PLG: {capacity}%",
-        "format-alt": "Batt: {time}",
+        "format": "{icon}",
+        "format-charging": "󰂄",
+        "format-plugged": "󰚥",
+        "format-full": "󰁹",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip": true,
+        "tooltip-format": "{capacity}%\n{time}",
         "states": {
             "warning": 30,
-            "critical": 20
+            "critical": 15
         }
     },
-    
-    "bluetooth": {
-        "format-on": "BT: On",
-        "format-off": "BT: Off",
-        "format-connected": "BT: {num_connections} conn",
+
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon}",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
         "tooltip": true,
-        "on-click": "rofi-bluetooth"
+        "tooltip-format": "{percent}%",
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-"
     },
-    
+
+    "pulseaudio": {
+        "format": "{icon} {format_source}",
+        "format-muted": "󰖁 {format_source}",
+        "format-source": "󰍬",
+        "format-source-muted": "󰍭",
+        "format-icons": {
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "tooltip": true,
+        "tooltip-format": "Vol: {volume}%\nMic: {source_volume}%",
+        "on-click": "pavucontrol",
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +2%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -2%"
+    },
+
     "clock": {
-        "format": "{:%H:%M}",
-        "tooltip-format": "{:%A, %B %d, %Y}",
+        "format": "{:%d %m %y   %H:%M}",
+        "tooltip": true,
+        "tooltip-format": "{:%A, %B %d %Y}",
         "interval": 1
     }
 }

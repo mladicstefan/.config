@@ -1,110 +1,159 @@
-/* GLOBAL STYLES */
 * {
   border: none;
-  font-size: 13px;
-  font-family: "Fira Code Medium", monospace;
-  font-weight: 500;
+  font-family: "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
   min-height: 0;
-  color: #ffffff;
 }
 
-/* WINDOW/BAR CONTAINER */
 window#waybar {
-  background: #000000;
-  margin: 0;
-  padding: 0;
-  border-radius: 0;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
 }
 
-/* TOOLTIPS */
 tooltip {
-  border-radius: 4px;
-  background: #111111;
-  border: 1px solid #333333;
-  padding: 5px 10px;
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 14px;
   color: #ffffff;
+  font-weight: 500;
 }
 
-/* MODULE CONTAINERS */
-.modules-right,
+.modules-left,
 .modules-center,
-.modules-left {
-  border-radius: 0;
-  padding: 0;
-  margin: 0;
-  background: #000000;
-  border: none;
+.modules-right {
+  padding: 0 12px;
 }
 
-/* INDIVIDUAL MODULE STYLING */
-#cpu,
-#memory,
-#disk,
-#temperature,
-#custom-interface-signal-info, /* MODIFIED ID */
-#custom-leaked-ip,
-#pulseaudio,
-#backlight,
-#battery,
-#custom-powerDraw,
-#bluetooth,
-#hyprland-window,
-#clock {
-  padding: 0 10px;
-  border-right: 1px solid #1a1a1a;
-}
-
-/* 🌟 WORKSPACES (Minimal Look) */
-#workspaces {
-  padding-left: 10px;
-}
-#workspaces button {
-  border-radius: 0;
-  padding: 0 10px;
-  margin: 0;
-  background: transparent;
-  color: #aaaaaa;
-  transition: all 0.1s ease;
-}
-
-#workspaces button.active {
+#custom-logo {
   color: #ffffff;
-  border-bottom: 2px solid #ffffff;
+  font-size: 18px;
+  padding: 0 14px 0 6px;
+}
+
+#workspaces {
+  padding: 0 8px;
+}
+
+#workspaces button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 4px 12px;
+  margin: 4px 2px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 #workspaces button:hover {
-  background: #111111;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
-/* Green for VPN (mullvad/wg0) */
+#workspaces button.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+#workspaces button.urgent {
+  background: rgba(255, 80, 80, 0.3);
+  color: #ff5050;
+}
+
+#window {
+  color: #ffffff;
+  padding: 0 16px;
+  font-weight: 500;
+}
+
+#temperature {
+  color: #ffffff;
+  padding: 0 12px;
+  font-size: 17px;
+}
+
+#temperature.critical {
+  color: #ff5555;
+}
+
+#custom-vpn-status {
+  padding: 0 12px;
+  font-size: 17px;
+}
+
 #custom-vpn-status.vpn-active {
-  /* <<< MODIFIED ID HERE */
-  color: #77dd77; /* Soft Green */
+  color: #50fa7b;
 }
 
-/* Red for standard Wifi/Ethernet (disconnected state) */
 #custom-vpn-status.wifi-active {
-  /* <<< MODIFIED ID HERE */
-  color: #ff6060; /* Red */
+  color: #ff5555;
 }
 
-/* Style for completely offline state */
 #custom-vpn-status.offline {
-  /* <<< MODIFIED ID HERE */
-  color: #ffaa00; /* Amber/Orange for emphasis */
+  color: #ffb86c;
 }
-/* Status Colors */
-#temperature.critical,
-#pulseaudio.muted,
-#network.disconnected,
-#battery.critical:not(.charging) {
-  color: #ff6060;
+
+#network {
+  color: #ffffff;
+  padding: 0 12px;
+  font-size: 17px;
+}
+
+#network.disconnected {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+#bluetooth {
+  color: #ffffff;
+  padding: 0 12px;
+  font-size: 17px;
+}
+
+#bluetooth.off {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+#bluetooth.connected {
+  color: #8be9fd;
+}
+
+#battery {
+  color: #ffffff;
+  padding: 0 12px;
+  font-size: 18px;
 }
 
 #battery.charging {
-  color: #77dd77;
+  color: #50fa7b;
 }
 
 #battery.warning:not(.charging) {
-  color: #ffc900;
+  color: #ffb86c;
+}
+
+#battery.critical:not(.charging) {
+  color: #ff5555;
+}
+
+#backlight {
+  color: #ffffff;
+  padding: 0 12px;
+  font-size: 17px;
+}
+
+#pulseaudio {
+  color: #ffffff;
+  padding: 0 12px;
+  font-size: 17px;
+}
+
+#pulseaudio.muted {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+#clock {
+  color: #ffffff;
+  padding: 0 16px 0 12px;
+  font-weight: bold;
 }
