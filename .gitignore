@@ -1,6 +1,7 @@
 #ignore all files
 QtProject.conf
 */
+./mimeapps.list
 kwalletrc
 QtProject*
 #except
