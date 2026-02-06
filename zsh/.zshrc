@@ -4,7 +4,6 @@ export ZSH="$HOME/.oh-my-zsh"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 
 ZSH_THEME="robbyrussell"
-
 autoload -U colors && colors
 
 RPROMPT='%F{240}%*%f'
@@ -23,6 +22,8 @@ zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
+
+PROMPT='%F{magenta}%n@%m%f '$PROMPT
 
 if command -v nvim &> /dev/null; then
 export EDITOR='nvim'
@@ -54,7 +55,7 @@ alias ~='cd ~'
 alias -- -='cd -'
 alias conf='cd ~/.config/'
 alias n='nvim'
-alias h='hyprland'
+alias h='start-hyprland'
 alias vim='nvim'
 alias vi='nvim'
 alias ssh='kitten ssh'
