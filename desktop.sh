@@ -2,11 +2,24 @@
 set -e
 
 if [ "$EUID" -eq 0 ]; then
-    echo "Run this script as a regular user with sudo privileges, not root."
+    echo "Run as regular user with sudo."
     exit 1
 fi
 
-sudo pacman -Syu --noconfirm --needed base-devel git
+sudo pacman -S --noconfirm pacman-contrib
+curl -s "https://archlinux.org/mirrorlist/?country=all&protocol=https&ip_version=4" | sed 's/^#Server/Server/' | rankmirrors -n 5 - | sudo tee /etc/pacman.d/mirrorlist
+sudo pacman -Syy
+
+KERNEL_TYPE=$(uname -r | sed 's/[0-9.-]*//')
+if [[ "$KERNEL_TYPE" == *"lts"* ]]; then
+    HEADERS="linux-lts-headers"
+elif [[ "$KERNEL_TYPE" == *"zen"* ]]; then
+    HEADERS="linux-zen-headers"
+else
+    HEADERS="linux-headers"
+fi
+
+sudo pacman -S --noconfirm --needed base-devel git btrfs-progs "$HEADERS"
 
 if ! command -v yay &>/dev/null; then
     BUILD_DIR=$(mktemp -d)
@@ -18,13 +31,18 @@ if ! command -v yay &>/dev/null; then
 fi
 
 sudo pacman -S --noconfirm --needed \
-    gnome \
-    gdm \
-    nvidia \
+    nvidia-dkms \
     nvidia-utils \
     nvidia-settings \
-    cuda \
     opencl-nvidia \
+    cuda \
+    gdm \
+    gnome-shell \
+    gnome-control-center \
+    gnome-console \
+    nautilus \
+    gnome-backgrounds \
+    xdg-user-dirs-gtk \
     rust \
     python \
     neovim \
@@ -34,10 +52,22 @@ sudo pacman -S --noconfirm --needed \
     dnsmasq \
     iptables-nft \
     dmidecode \
-    zsh
+    zsh \
+    zsh-completions
+
+if ! grep -q "nvidia_drm" /etc/mkinitcpio.conf; then
+    sudo sed -i 's/^MODULES=(/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm /' /etc/mkinitcpio.conf
+fi
+
+echo "options nvidia_drm modeset=1 fbdev=1" | sudo tee /etc/modprobe.d/nvidia.conf
 
 sudo systemctl enable gdm.service
 sudo systemctl enable libvirtd.service
 sudo usermod -aG libvirt "$USER"
 
-echo "options nvidia_drm modeset=1 fbdev=1" | sudo tee /etc/modprobe.d/nvidia.conf
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+sudo chsh -s /usr/bin/zsh "$USER"
+
+sudo mkinitcpio -P
