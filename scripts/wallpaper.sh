@@ -65,7 +65,7 @@ for wallpaper in "${WALLPAPERS[@]}"; do
 done
 
 if [[ -n "$FULL_PATH" ]]; then
-    swww img "$FULL_PATH" --transition-type grow --transition-fps 60 --transition-duration 0.3
+    awww img "$FULL_PATH" --transition-type grow --transition-fps 60 --transition-duration 0.3
     ~/.config/waybar/scripts/extract-colors.sh "$FULL_PATH" &
 else
     echo "Error: Could not find wallpaper file for '$CHOICE'"

@@ -1,0 +1,58 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "buffer_font_family": "Iosevka Nerd Font",
+  "document_symbols": "on",
+  "document_folding_ranges": "on",
+  "semantic_tokens": "full",
+  "vim": {
+    "toggle_relative_line_numbers": true,
+  },
+  "terminal": {
+    "font_family": "Iosevka Nerd Font",
+  },
+  "project_panel": {
+    "dock": "left",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "agent": {
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "git_panel": {
+    "dock": "left",
+  },
+  "session": {
+    "trust_all_worktrees": false,
+  },
+  "vim_mode": true,
+  "icon_theme": "Zed (Default)",
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Terafox - blurred",
+  },
+  "lsp": {
+    "zls": {
+      "initialization_options": {
+        "enable_ast_check_diagnostics": true,
+        "warn_about_zig_version": false,
+      },
+    },
+  },
+  "use_autoclose": true,
+}

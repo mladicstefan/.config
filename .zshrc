@@ -2,6 +2,7 @@ export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export CARGO_TARGET_DIR="$HOME/.cargo/build-tmp"
+export TERM=xterm-256color
 alias cargo-miri='TMPDIR=$HOME/tmp MIRIFLAGS="-Zmiri-disable-isolation" cargo miri'
 
 ZSH_THEME="robbyrussell"
@@ -59,7 +60,6 @@ alias n='nvim'
 alias h='start-hyprland'
 alias vim='nvim'
 alias vi='nvim'
-alias ssh='kitten ssh'
 alias gst='git status'
 alias gaa='git add .'
 alias gcm='git commit -m'
@@ -106,3 +106,5 @@ if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
 source "$HOME/anaconda3/etc/profile.d/conda.sh"
 fi
 [[ ! -r '/home/djamla/.opam/opam-init/init.zsh' ]] || source '/home/djamla/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+export PATH="$HOME/.local/share/zig:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
