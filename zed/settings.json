@@ -10,7 +10,7 @@
   "buffer_font_family": "Iosevka Nerd Font",
   "document_symbols": "on",
   "document_folding_ranges": "on",
-  "semantic_tokens": "full",
+  "semantic_tokens": "combined",
   "vim": {
     "toggle_relative_line_numbers": true,
   },
